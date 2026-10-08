@@ -1,28 +1,15 @@
+// db.js - Conexión a PostgreSQL
+const { Pool } = require('pg');
 
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+});
 
-const mysql = require('mysql2/promise');
-
-// Configuración de la DB
-const dbConfig = {
-    host: 'localhost',
-    user: 'root',           
-    password: 'Frouston',           
-    database: 'formulario_alumnos_js',
-    port: 3306,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-};
-
-//  pool de conexiones
-const pool = mysql.createPool(dbConfig);
-
-//  probar la conexión
 async function probarConexion() {
     try {
-        const connection = await pool.getConnection();
-        console.log('✅ Conexión exitosa a MySQL');
-        connection.release();
+        await pool.query('SELECT NOW()');
+        console.log('✅ Conexión exitosa a PostgreSQL');
         return true;
     } catch (error) {
         console.error('❌ Error de conexión:', error.message);
@@ -30,8 +17,4 @@ async function probarConexion() {
     }
 }
 
-// Exportar 
-module.exports = {
-    pool,
-    probarConexion
-};
+module.exports = { pool, probarConexion };

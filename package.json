@@ -1,7 +1,7 @@
 {
     "name": "formulario-alumno-js",
     "version": "1.0.0",
-    "description": "Formulario de alumno con Node.js y MySQL",
+    "description": "Formulario de alumno con Node.js y PostgreSQL",
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
@@ -9,7 +9,7 @@
     },
     "keywords": [
         "formulario",
-        "mysql",
+        "postgresql",
         "nodejs"
     ],
     "author": "",
@@ -17,7 +17,7 @@
     "dependencies": {
         "cors": "^2.8.6",
         "express": "^4.22.3",
-        "mysql2": "^3.24.5"
+        "pg": "^8.11.0"
     },
     "devDependencies": {
         "nodemon": "^3.0.2"
