@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Alumno</title>
+    <style>
+        /* =============================================
+            ESTILOS GENERALES
+           ============================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* =============================================
+           VENTANA PRINCIPAL
+           ============================================= */
+        .ventana {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+            animation: aparecer 0.5s ease-out;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* =============================================
+           BARRA DE TÍTULO
+           ============================================= */
+        .barra-titulo {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .barra-titulo h1 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .botones-ventana {
+            display: flex;
+            gap: 0;
+        }
+
+        .boton-ventana {
+            width: 46px;
+            height: 36px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            color: white;
+            background: transparent;
+        }
+
+        .boton-ventana:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .boton-cerrar:hover {
+            background: #e74c3c;
+        }
+
+        /* =============================================
+           CONTENIDO DEL FORMULARIO
+           ============================================= */
+        .contenido {
+            padding: 40px 50px;
+        }
+
+        .formulario {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .campo {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .campo label {
+            width: 200px;
+            text-align: right;
+            font-size: 15px;
+            font-weight: 600;
+            color: #2d3748;
+            flex-shrink: 0;
+        }
+
+        .campo input {
+            width: 280px;
+            padding: 10px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #2d3748;
+            transition: all 0.3s ease;
+            outline: none;
+            background: #f7fafc;
+        }
+
+        .campo input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            background: #ffffff;
+        }
+
+        .campo input::placeholder {
+            color: #a0aec0;
+        }
+
+        /* =============================================
+           BOTONES INFERIORES
+           ============================================= */
+        .botones-inferiores {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 30px 50px 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: none;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-guardar {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #1a202c;
+        }
+
+        .btn-guardar:hover {
+            box-shadow: 0 6px 20px rgba(67, 233, 123, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-descartar {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        .btn-descartar:hover {
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-ver {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #1a202c;
+        }
+
+        .btn-ver:hover {
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-regresar {
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            color: #1a202c;
+        }
+
+        .btn-regresar:hover {
+            box-shadow: 0 6px 20px rgba(161, 140, 209, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-siguiente {
+            background: linear-gradient(135deg, #fccb90, #d57eeb);
+            color: #1a202c;
+        }
+
+        .btn-siguiente:hover {
+            box-shadow: 0 6px 20px rgba(213, 126, 235, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* =============================================
+            VER FORMULARIOS
+           ============================================= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.activo {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: modalEntrar 0.4s ease;
+        }
+
+        @keyframes modalEntrar {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+        }
+
+        .modal-cerrar {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .modal-cerrar:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .tabla-alumnos {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .tabla-alumnos thead {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .tabla-alumnos th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .tabla-alumnos td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #2d3748;
+        }
+
+        .tabla-alumnos tbody tr:hover {
+            background: #f0f4ff;
+        }
+
+        .tabla-alumnos tbody tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .tabla-alumnos tbody tr:nth-child(even):hover {
+            background: #f0f4ff;
+        }
+
+        .btn-eliminar-fila {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-eliminar-fila:hover {
+            background: #e53e3e;
+            transform: scale(1.05);
+        }
+
+        .sin-datos {
+            text-align: center;
+            padding: 40px;
+            color: #a0aec0;
+            font-size: 16px;
+        }
+
+        .sin-datos .icono {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        /* =============================================
+           NOTIFICACIONES
+           ============================================= */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 28px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .toast.mostrar {
+            transform: translateX(0);
+        }
+
+        .toast-exito {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #1a202c;
+        }
+
+        .toast-error {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .toast-info {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #1a202c;
+        }
+
+        /* =============================================
+           INDICADOR DE CARGA
+           ============================================= */
+        .cargando {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .cargando.activo {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* =============================================
+           RESPONSIVE
+           ============================================= */
+        @media (max-width: 768px) {
+            .contenido {
+                padding: 25px 20px;
+            }
+
+            .campo {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .campo label {
+                width: 100%;
+                text-align: left;
+            }
+
+            .campo input {
+                width: 100%;
+            }
+
+            .botones-inferiores {
+                padding: 20px;
+                gap: 10px;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =============================================
+         VENTANA PRINCIPAL
+         ============================================= -->
+    <div class="ventana" id="ventanaPrincipal">
+
+        <!-- Barra de título -->
+        <div class="barra-titulo">
+            <h1> Formulario de alumno</h1>
+            <div class="botones-ventana">
+                <button class="boton-ventana boton-minimizar" onclick="minimizarVentana()" title="Minimizar">─</button>
+                <button class="boton-ventana boton-maximizar" onclick="maximizarVentana()" title="Maximizar">☐</button>
+                <button class="boton-ventana boton-cerrar" onclick="cerrarVentana()" title="Cerrar">✕</button>
+            </div>
+        </div>
+
+        <!-- Contenido del formulario -->
+        <div class="contenido">
+            <form class="formulario" id="formularioAlumno" onsubmit="return false;">
+
+                <div class="campo">
+                    <label for="nombre">Nombre del alumno</label>
+                    <input type="text" id="nombre" placeholder="Ej: Juan Pérez García" required>
+                </div>
+
+                <div class="campo">
+                    <label for="edad">Edad</label>
+                    <input type="number" id="edad" placeholder="Ej: 20" min="16" max="99" required>
+                </div>
+
+                <div class="campo">
+                    <label for="semestre">Semestre</label>
+                    <input type="number" id="semestre" placeholder="Ej: 4" min="1" max="12" required>
+                </div>
+
+                <div class="campo">
+                    <label for="numero_control">Número de control</label>
+                    <input type="text" id="numero_control" placeholder="Ej: 20230001" required>
+                </div>
+
+                <div class="campo">
+                    <label for="licenciatura">Licenciatura o Ingeniería</label>
+                    <input type="text" id="licenciatura" placeholder="Ej: Ing. en Sistemas Computacionales" required>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Botones inferiores -->
+        <div class="botones-inferiores">
+            <button class="btn btn-guardar" onclick="guardarAlumno()"> Guardar</button>
+            <button class="btn btn-descartar" onclick="descartarFormulario()"> Descartar</button>
+            <button class="btn btn-ver" onclick="verFormularios()"> Ver formularios</button>
+            <button class="btn btn-regresar" onclick="regresarFormulario()">◀ Regresar al anterior</button>
+            <button class="btn btn-siguiente" onclick="siguienteFormulario()">Siguiente formulario ▶</button>
+        </div>
+    </div>
+
+    <!-- =============================================
+         VER FORMULARIOS
+         ============================================= -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2> Formularios Registrados</h2>
+                <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="cargando" id="cargando">
+                    <div class="spinner"></div>
+                    <p>Cargando datos...</p>
+                </div>
+                <div id="contenidoTabla"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================
+         NOTIFICACIONES
+         ============================================= -->
+    <div class="toast" id="toast"></div>
+
+    <!-- =============================================
+         JAVASCRIPT
+         ============================================= -->
+    <script>
+        // =============================================
+        // CONFIGURACIÓN
+        // =============================================
+        const API_BASE = 'http://localhost:3000/api';
+        let formularioActual = 0;
+        let listaAlumnos = [];
+
+        // =============================================
+        // FUNCIONES DE VENTANA
+        // =============================================
+        function minimizarVentana() {
+            const ventana = document.getElementById('ventanaPrincipal');
+            ventana.style.transition = 'all 0.4s ease';
+            ventana.style.transform = 'scale(0.1) translateY(100vh)';
+            ventana.style.opacity = '0';
+            setTimeout(() => {
+                ventana.style.transform = 'scale(1) translateY(0)';
+                ventana.style.opacity = '1';
+            }, 1500);
+            mostrarToast('Ventana minimizada', 'info');
+        }
+
+        function maximizarVentana() {
+            const ventana = document.getElementById('ventanaPrincipal');
+            if (ventana.style.maxWidth === '100%') {
+                ventana.style.maxWidth = '900px';
+                ventana.style.borderRadius = '12px';
+            } else {
+                ventana.style.maxWidth = '100%';
+                ventana.style.borderRadius = '0';
+            }
+        }
+
+        function cerrarVentana() {
+            const ventana = document.getElementById('ventanaPrincipal');
+            ventana.style.transition = 'all 0.4s ease';
+            ventana.style.transform = 'scale(0.8)';
+            ventana.style.opacity = '0';
+            setTimeout(() => {
+                if (confirm('¿Seguro que deseas cerrar el formulario?')) {
+                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;color:white;font-size:24px;font-family:Segoe UI;">👋 Sesión cerrada. Recarga la página para continuar.</div>';
+                } else {
+                    ventana.style.transform = 'scale(1)';
+                    ventana.style.opacity = '1';
+                }
+            }, 400);
+        }
+
+        // =============================================
+        // FUNCIONES DEL FORMULARIO
+        // =============================================
+        async function guardarAlumno() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const edad = document.getElementById('edad').value;
+            const semestre = document.getElementById('semestre').value;
+            const numero_control = document.getElementById('numero_control').value.trim();
+            const licenciatura = document.getElementById('licenciatura').value.trim();
+
+            // Validación
+            if (!nombre || !edad || !semestre || !numero_control || !licenciatura) {
+                mostrarToast(' Todos los campos son obligatorios', 'error');
+                return;
+            }
+
+            if (edad < 16 || edad > 99) {
+                mostrarToast('️ La edad debe estar entre 16 y 99', 'error');
+                return;
+            }
+
+            if (semestre < 1 || semestre > 12) {
+                mostrarToast('️ El semestre debe estar entre 1 y 12', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/alumnos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre,
+                        edad: parseInt(edad),
+                        semestre: parseInt(semestre),
+                        numero_control,
+                        licenciatura
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    mostrarToast('✅ ' + data.message, 'exito');
+                    limpiarFormulario();
+                } else {
+                    mostrarToast('❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarToast('❌ Error de conexión con el servidor', 'error');
+            }
+        }
+
+        function descartarFormulario() {
+            if (confirm('¿Estás seguro de descartar los datos del formulario?')) {
+                limpiarFormulario();
+                mostrarToast(' Formulario descartado', 'info');
+            }
+        }
+
+        function limpiarFormulario() {
+            document.getElementById('nombre').value = '';
+            document.getElementById('edad').value = '';
+            document.getElementById('semestre').value = '';
+            document.getElementById('numero_control').value = '';
+            document.getElementById('licenciatura').value = '';
+            document.getElementById('nombre').focus();
+        }
+
+        // =============================================
+        // VER FORMULARIOS
+        // =============================================
+        async function verFormularios() {
+            const modal = document.getElementById('modalOverlay');
+            const cargando = document.getElementById('cargando');
+            const contenido = document.getElementById('contenidoTabla');
+
+            modal.classList.add('activo');
+            cargando.classList.add('activo');
+            contenido.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_BASE}/alumnos`);
+                const data = await response.json();
+
+                cargando.classList.remove('activo');
+
+                if (data.success && data.data.length > 0) {
+                    listaAlumnos = data.data;
+                    renderizarTabla(data.data);
+                } else {
+                    contenido.innerHTML = `
+                        <div class="sin-datos">
+                            <div class="icono"></div>
+                            <p>No hay formularios registrados aún</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                cargando.classList.remove('activo');
+                console.error('Error:', error);
+                mostrarToast('❌ Error al cargar los datos', 'error');
+            }
+        }
+
+        function renderizarTabla(alumnos) {
+            let html = `
+                <table class="tabla-alumnos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Semestre</th>
+                            <th>No. Control</th>
+                            <th>Carrera</th>
+                            <th>Fecha</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            alumnos.forEach((alumno) => {
+                html += `
+                    <tr>
+                        <td>${alumno.id_alumno}</td>
+                        <td>${alumno.nombre_alumno}</td>
+                        <td>${alumno.edad}</td>
+                        <td>${alumno.semestre}</td>
+                        <td>${alumno.numero_control}</td>
+                        <td>${alumno.licenciatura_ingenieria}</td>
+                        <td>${alumno.fecha_registro || 'N/A'}</td>
+                        <td>
+                            <button class="btn-eliminar-fila" onclick="eliminarAlumno(${alumno.id_alumno})">️ Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            document.getElementById('contenidoTabla').innerHTML = html;
+        }
+
+        async function eliminarAlumno(id) {
+            if (confirm('¿Seguro que deseas eliminar este alumno?')) {
+                try {
+                    const response = await fetch(`${API_BASE}/alumnos/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        mostrarToast('✅ Alumno eliminado', 'exito');
+                        verFormularios();
+                    } else {
+                        mostrarToast(' ' + data.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    mostrarToast('❌ Error al eliminar', 'error');
+                }
+            }
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalOverlay').classList.remove('activo');
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+
+        // =============================================
+        // NAVEGACIÓN ENTRE FORMULARIOS
+        // =============================================
+        async function regresarFormulario() {
+            if (listaAlumnos.length === 0) {
+                await cargarListaAlumnos();
+            }
+
+            if (listaAlumnos.length === 0) {
+                mostrarToast(' No hay formularios anteriores', 'info');
+                return;
+            }
+
+            formularioActual = Math.max(0, formularioActual - 1);
+            cargarFormulario(formularioActual);
+            mostrarToast('◀ Formulario anterior cargado', 'info');
+        }
+
+        async function siguienteFormulario() {
+            if (listaAlumnos.length === 0) {
+                await cargarListaAlumnos();
+            }
+
+            if (listaAlumnos.length === 0) {
+                mostrarToast(' No hay más formularios', 'info');
+                return;
+            }
+
+            formularioActual = Math.min(listaAlumnos.length - 1, formularioActual + 1);
+            cargarFormulario(formularioActual);
+            mostrarToast('▶️ Siguiente formulario cargado', 'info');
+        }
+
+        async function cargarListaAlumnos() {
+            try {
+                const response = await fetch(`${API_BASE}/alumnos`);
+                const data = await response.json();
+                if (data.success) {
+                    listaAlumnos = data.data;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function cargarFormulario(index) {
+            const alumno = listaAlumnos[index];
+            if (alumno) {
+                document.getElementById('nombre').value = alumno.nombre_alumno || '';
+                document.getElementById('edad').value = alumno.edad || '';
+                document.getElementById('semestre').value = alumno.semestre || '';
+                document.getElementById('numero_control').value = alumno.numero_control || '';
+                document.getElementById('licenciatura').value = alumno.licenciatura_ingenieria || '';
+            }
+        }
+
+        // =============================================
+        // NOTIFICACIONES
+        // =============================================
+        function mostrarToast(mensaje, tipo) {
+            const toast = document.getElementById('toast');
+            toast.textContent = mensaje;
+            toast.className = 'toast toast-' + tipo;
+
+            setTimeout(() => toast.classList.add('mostrar'), 10);
+            setTimeout(() => toast.classList.remove('mostrar'), 3500);
+        }
+
+        // =============================================
+        //  TECLADO
+        // =============================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cerrarModal();
+            }
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                guardarAlumno();
+            }
+        });
+
+        // =============================================
+        // INICIALIZACIÓN
+        // =============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('nombre').focus();
+            console.log(' Formulario de Alumno cargado correctamente');
+        });
+        // Crear elemento del cursor personalizado
+const cursor = document.createElement('div');
+cursor.style.cssText = `
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+`;
+document.body.appendChild(cursor);
+
+// Seguir el mouse
+document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX - 10 + 'px';
+    cursor.style.top = e.clientY - 10 + 'px';
+});
+
+// Efecto al hacer clic
+document.addEventListener('mousedown', () => {
+    cursor.style.transform = 'scale(1.5)';
+});
+
+document.addEventListener('mouseup', () => {
+    cursor.style.transform = 'scale(1)';
+});
+
+// Efecto al pasar sobre botones
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(2)';
+        cursor.style.background = 'radial-gradient(circle, #f5576c 0%, #f093fb 100%)';
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'scale(1)';
+        cursor.style.background = 'radial-gradient(circle, #667eea 0%, #764ba2 100%)';
+    });
+});
+
+// Ocultar cursor original
+document.body.style.cursor = 'none';
+    </script>
+
+</body>
+</html>
